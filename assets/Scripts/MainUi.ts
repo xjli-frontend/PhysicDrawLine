@@ -13,8 +13,9 @@ export default class MainUi extends cc.Component{
     @property(cc.PhysicsBoxCollider)
     rightBian: cc.PhysicsBoxCollider = null;
     @property(cc.PhysicsBoxCollider)
-    downBian: cc.PhysicsBoxCollider = null;
+    downBians: cc.PhysicsBoxCollider = null;
 
+    static downBian: cc.PhysicsBoxCollider = null;
 
     onLoad() {
         // window.mainUi = this;
@@ -25,7 +26,7 @@ export default class MainUi extends cc.Component{
 
         //绘制物理信息
         manager.debugDrawFlags = 
-            // 0;
+            0;
             cc.PhysicsManager.DrawBits.e_jointBit |
             cc.PhysicsManager.DrawBits.e_shapeBit;
 
@@ -33,13 +34,14 @@ export default class MainUi extends cc.Component{
         this.node.on(cc.Node.EventType.TOUCH_START, this.touch_start, this);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this.touch_move, this);
         this.node.on(cc.Node.EventType.TOUCH_END, this.touch_end, this);
+        MainUi.downBian = this.downBians;
     }
 
     start() {
 
-        this.downBian.node.setPosition(cc.v2(0, -cc.winSize.height / 2));
+        MainUi.downBian.node.setPosition(cc.v2(0, -cc.winSize.height / 2));
         // this.downBian.editing = true;
-        this.downBian.size =new  cc.Size(cc.winSize.width,10);
+        MainUi.downBian.size =new  cc.Size(cc.winSize.width,10);
 
         this.leftBian.node.setPosition(cc.v2(-cc.winSize.width / 2 + this.leftBian.size.width, 0));
 
@@ -59,7 +61,7 @@ export default class MainUi extends cc.Component{
     }
     createGraphics() {
         var graphics_node = cc.instantiate(this.graphics);
-        console.log("~~~~~~~~~~~~~~",graphics_node);
+        console.log("~~~~~~~~~~~~~~");
         graphics_node.x = 0;
         this.node.addChild(graphics_node);
     }

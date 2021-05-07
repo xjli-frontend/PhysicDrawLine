@@ -22,8 +22,12 @@ export default class CustomPhysicsCollider extends cc.PhysicsCollider {
 
             var shape = new b2.PolygonShape();
 
+            if(posBegin.equals(posEnd)){
+                continue;
+            }
+
             if (shape) {
-                shape.SetAsBox(this.lineWidth / 2 / 32, linelen / 2 / 32, new b2.Vec2(midPos.x / 32, midPos.y / 32), angle);
+                shape.SetAsBox(this.lineWidth / 2 / 32 / 2, linelen / 2 / 32 / 2, new b2.Vec2(midPos.x / 32, midPos.y / 32), angle);
     
                 shapes.push(shape);
             }

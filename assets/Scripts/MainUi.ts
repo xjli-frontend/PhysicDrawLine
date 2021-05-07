@@ -59,7 +59,11 @@ export default class MainUi extends cc.Component{
         //每次画完在准备好一个绘制界面
         this.createGraphics();
     }
+    count:number = 0;
     createGraphics() {
+        if(this.count++>10){
+            return;
+        }
         var graphics_node = cc.instantiate(this.graphics);
         console.log("~~~~~~~~~~~~~~");
         graphics_node.x = 0;

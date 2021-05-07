@@ -45,6 +45,10 @@ export default class GraphicsControl extends cc.Component {
     }
     touch_start (event) {
         this.line_point = [];
+        let x = event.getLocation().x;
+        let y = event.getLocation().y;
+        // let collider = cc.director.getPhysicsManager().testPoint(x,y);
+        // if(collider){return};
         let pos = this.node.parent.convertToNodeSpaceAR(event.getLocation());
         this.path.moveTo(pos.x, pos.y);
         this.line_point.push(cc.v2(pos.x, pos.y));
@@ -54,11 +58,9 @@ export default class GraphicsControl extends cc.Component {
 
     flag:boolean = true;
     touch_move (event) {
-        // let pos = this.node.convertToNodeSpaceAR(event.getLocation());
-        // this.path.lineTo(pos.x, pos.y);
-        // this.line_point.push(cc.v2(pos.x, pos.y));
-        // this.path.stroke();
-
+        if(this.line_point.length<=0){
+            return;
+        }
         let touchLoc = event.getLocation();
         touchLoc = this.node.parent.convertToNodeSpaceAR(touchLoc);
         // let lastTouchLoc = this.line_point[this.line_point.length - 1];
@@ -83,7 +85,9 @@ export default class GraphicsControl extends cc.Component {
                     this.path.stroke();
 
 
-                    this.dashedPath.moveTo(endPos.x,endPos.y);
+                    let dashEndPos = this.node.convertToNodeSpaceAR(result[0].point);
+                    this.dashedPath.moveTo(dashEndPos.x,dashEndPos.y);
+                    touchLoc = this.node.convertToNodeSpaceAR(event.getLocation());
                     this.dashedPath.lineTo(touchLoc.x,touchLoc.y);
                     // this.node.parent.parent.getChildByName("point").setPosition(result[0].point)
                     // this.node.parent.parent.getChildByName("point2").setPosition(touchLoc)
@@ -92,6 +96,7 @@ export default class GraphicsControl extends cc.Component {
                 }
             }else if(!this.flag){
                 cc.log(3)
+                touchLoc = this.node.convertToNodeSpaceAR(event.getLocation());
                 this.dashedPath.lineTo(touchLoc.x, touchLoc.y);
                 this.dashedPath.stroke();
 
@@ -100,7 +105,9 @@ export default class GraphicsControl extends cc.Component {
         }
     }
     touch_end (event) {
-        cc.log(this.line_point)
+        if(this.line_point.length<=0){
+            return;
+        }
         this.createRigibody();
         this.dashedPath.clear();
         this.offTouch();

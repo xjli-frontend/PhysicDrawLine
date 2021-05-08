@@ -26,7 +26,7 @@ export default class MainUi extends cc.Component{
 
         //绘制物理信息
         manager.debugDrawFlags = 
-            0;
+            // 0;
             cc.PhysicsManager.DrawBits.e_jointBit |
             cc.PhysicsManager.DrawBits.e_shapeBit;
 

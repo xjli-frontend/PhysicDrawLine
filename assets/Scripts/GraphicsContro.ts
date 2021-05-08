@@ -77,9 +77,9 @@ export default class GraphicsControl extends cc.Component {
                 this.path.stroke();
             } else if(result.length > 0 && this.flag){
                 if(this.flag){
-                    cc.log(2)
+                    cc.log(2,result[0].point)
                     this.flag = false;
-                    let endPos = this.node.parent.convertToNodeSpaceAR(result[0].point);
+                    let endPos = this.node.parent.convertToNodeSpaceAR(cc.v2(result[0].point.x*0.999,result[0].point.y*0.999));
                     this.line_point.push(endPos);
                     this.path.lineTo(endPos.x,endPos.y);
                     this.path.stroke();
@@ -127,8 +127,8 @@ export default class GraphicsControl extends cc.Component {
         this.physicsLine = this.addComponent(CustomPhysicsCollider);
         this.physicsLine.lineWidth = this.path.lineWidth;
         this.physicsLine.points = this.line_point;
-        this.physicsLine.friction = 0.2;
-        this.physicsLine.density = 1;
+        this.physicsLine.friction = 1;
+        this.physicsLine.density = 2;
         this.physicsLine.apply();
     }
 
